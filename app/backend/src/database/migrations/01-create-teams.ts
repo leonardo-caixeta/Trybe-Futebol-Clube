@@ -5,7 +5,7 @@ export default {
   up(queryInterface: QueryInterface) {
     return queryInterface.createTable<Model<ITeams>>('teams', {
       id: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.INTEGER,
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -13,6 +13,7 @@ export default {
       teamName: {
         type: DataTypes.STRING,
         allowNull: false,
+        field: 'team_name',
       },
     });
   },

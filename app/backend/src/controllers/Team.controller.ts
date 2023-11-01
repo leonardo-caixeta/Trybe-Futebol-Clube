@@ -14,7 +14,7 @@ export default class BookController {
   }
 
   async findById(req: Request, res: Response) {
-    const { status, data } = await this.bookService.findById(Number(req.params));
+    const { status, data } = await this.bookService.findById(+req.params.id);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
