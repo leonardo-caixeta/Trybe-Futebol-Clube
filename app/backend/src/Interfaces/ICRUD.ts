@@ -23,5 +23,4 @@ export interface ICRUDModelReader<T> {
 //   findByQuery(query: string): Promise<ITeams[] | null>
 // }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ICRUDModel<T> extends ICRUDModelReader<T> { }
+export type ICRUDModel<T> = ICRUDModelReader<T>;
