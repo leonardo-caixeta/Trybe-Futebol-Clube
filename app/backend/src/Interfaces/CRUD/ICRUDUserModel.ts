@@ -1,3 +1,3 @@
-import { ICRUDModelCreator } from './ICRUDModel';
+import { ICRUDModelLogin } from './ICRUDModel';
 
-export type ICRUDUserModel<T> = ICRUDModelCreator<T>;
+export type ICRUDUserModel<T> = ICRUDModelLogin<T>;

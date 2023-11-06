@@ -1,0 +1,26 @@
+import UserModel from '../models/User.model';
+import { IUserService } from '../Interfaces/users/IUserService';
+import { ServiceResponse } from '../Interfaces/ServiceResponse';
+import UserValidation from './validations/User.validation';
+import JWT from '../utils/JWT';
+
+export default class UserService implements IUserService {
+  constructor(
+    private teamModel: UserModel = new UserModel(),
+  ) { }
+
+  async login(email: string, password: string):
+  Promise<ServiceResponse<{ token: string } | string>> {
+    const validation = UserValidation.validateLogin({ email, password });
+    if (validation) {
+      return validation;
+    }
+
+    const user = await this.teamModel.login(email, password);
+    if (!user) return { status: 'INVALID_DATA', data: { message: 'Invalid email or password' } };
+
+    const token = JWT.sign({ email, role: user.role, id: user.id });
+
+    return { status: 'SUCCESSFUL', data: { token } };
+  }
+}

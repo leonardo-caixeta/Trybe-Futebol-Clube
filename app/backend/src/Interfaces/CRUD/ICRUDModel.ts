@@ -20,3 +20,7 @@ export interface ICRUDModelDeleter {
 export interface ICRUDModelFindByParam<I> {
   findByQuery(query: string): Promise<I[] | null>
 }
+
+export interface ICRUDModelLogin<I> {
+  login(email: string, password: string): Promise<I | null>
+}

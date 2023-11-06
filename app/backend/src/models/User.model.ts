@@ -5,10 +5,9 @@ import SequelizeUser from '../database/models/SequelizeUser';
 export default class UserModel implements IUserModel {
   private model = SequelizeUser;
 
-  async create(data: Omit<IUsers, 'id'>): Promise<IUsers> {
-    const user = await this.model.create(data);
+  async login(email: string, password: string): Promise<IUsers | null> {
+    const dbData = this.model.findOne({ where: { email, password } });
 
-    const { id, username, role, email, password } = user;
-    return { id, username, role, email, password };
+    return dbData;
   }
 }
