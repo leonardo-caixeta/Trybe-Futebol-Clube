@@ -4,7 +4,7 @@ import { App } from '../../../../backend/src/app';
 import chaiHttp from 'chai-http';
 
 import JWT from '../../utils/JWT'
-import Validations from '../../middlewares/Validation'
+import validations from '../../services/validations/User.validation'
 chai.use(chaiHttp);
 
 const { expect } = chai;
@@ -15,6 +15,8 @@ import SequelizeUser from '../../database/models/SequelizeUser'
 import {
   errorIncorrectMessageMock,
   errorInvalidMessageMock,
+  errorInvalidTokenMock,
+  errorNoTokenMock,
   tokenMock,
   userMock,
   wrongPasswordMock,
@@ -27,12 +29,11 @@ describe('Login test', function() {
     it('should login', async function() {
       sinon.stub(SequelizeUser, 'findOne').resolves(userMock as any);
       sinon.stub(JWT, 'sign').returns(tokenMock);
-      sinon.stub(Validations, 'login').returns();
+      sinon.stub(validations, 'validateLogin').returns(null);
 
       const { password, email } = userMock;
 
       const { status, body } = await chai.request(app).post('/login')
-        .set('authorization', 'validToken')
         .send({ password, email });
 
       expect(status).to.be.equal(201);
@@ -45,7 +46,6 @@ describe('Login test', function() {
       const { email } = userMock;
 
       const { status, body } = await chai.request(app).post('/login')
-        .set('authorization', 'validToken')
         .send({ email });
 
       expect(status).to.be.equal(400);
@@ -58,7 +58,6 @@ describe('Login test', function() {
       const { password } = userMock;
 
       const { status, body } = await chai.request(app).post('/login')
-        .set('authorization', 'validToken')
         .send({ password });
 
       expect(status).to.be.equal(400);
@@ -71,7 +70,6 @@ describe('Login test', function() {
       const { username, password } = wrongUserMock;
 
       const { status, body } = await chai.request(app).post('/login')
-        .set('authorization', 'validToken')
         .send({ username, password });
 
       expect(status).to.be.equal(401);
@@ -84,7 +82,6 @@ describe('Login test', function() {
       const { username, password } = wrongPasswordMock;
 
       const { status, body } = await chai.request(app).post('/login')
-        .set('authorization', 'validToken')
         .send({ username, password });
 
       expect(status).to.be.equal(401);
@@ -92,7 +89,27 @@ describe('Login test', function() {
     });
   });
 
-  describe('should login with token - /login/role', function() {
-    it.skip('should login')
+  describe('should return the role - /login/role', function() {
+    it('should return', async function () {
+      const { status, body } = await chai.request(app).get('/login/role')
+        .set('authorization', tokenMock);
+      expect(status).to.be.equal(200);
+      expect(body).to.be.deep.equal({ role: 'admin' });
+    });
+
+    it('should return error - without token', async function () {
+      const { status, body } = await chai.request(app).get('/login/role')
+
+      expect(status).to.be.equal(401);
+      expect(body).to.be.deep.equal(errorNoTokenMock);
+    });
+
+    it('should return error - without token', async function () {
+      const { status, body } = await chai.request(app).get('/login/role')
+      .set('authorization', '');
+
+      expect(status).to.be.equal(401);
+      expect(body).to.be.deep.equal(errorInvalidTokenMock);
+    });
   });
 });

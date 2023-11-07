@@ -6,7 +6,7 @@ const userController = new UserController();
 
 const router = Router();
 
-router.get('/login', (req: Request, res: Response) => userController.login(req, res));
+router.post('/login', (req: Request, res: Response) => userController.login(req, res));
 router.get(
   '/login/role',
   Validations.validateToken,

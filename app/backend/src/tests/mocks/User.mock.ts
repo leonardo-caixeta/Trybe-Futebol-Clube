@@ -17,7 +17,7 @@ export const usersMock = [
   },
 ];
 
-export const tokenMock =  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjU0NTI3MTg5fQ.XS_9AA82iNoiVaASi0NtJpqOQ_gHSHhxrpIdigiT-fc';
+export const tokenMock =  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGFkbWluLmNvbSIsInJvbGUiOiJhZG1pbiIsImlkIjoxLCJpYXQiOjE2OTkzODI1NTIsImV4cCI6MTcwMDI0NjU1Mn0.vJQDkGjBS6ssLpoaFNGo-HannQuUXp-VQPPp-2wpE0k';
 
 export const errorIncorrectMessageMock = { "message": "All fields must be filled" }
 
@@ -32,3 +32,7 @@ export const wrongPasswordMock = {
   username: 'leozin123@gmail.com',
   password: '12345'
 }
+
+export const errorNoTokenMock = { "message": "Token not found" }
+
+export const errorInvalidTokenMock = { "message": "Token must be a valid token" }
