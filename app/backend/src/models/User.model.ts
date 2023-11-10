@@ -5,8 +5,8 @@ import SequelizeUser from '../database/models/SequelizeUser';
 export default class UserModel implements IUserModel {
   private model = SequelizeUser;
 
-  async login(email: string, password: string): Promise<IUsers | null> {
-    const dbData = this.model.findOne({ where: { email, password } });
+  async findByEmail(email: string): Promise<IUsers | null> {
+    const dbData = await this.model.findOne({ where: { email } });
 
     return dbData;
   }

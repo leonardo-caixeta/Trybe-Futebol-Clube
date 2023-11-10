@@ -1,3 +1,4 @@
+import * as bcrypt from 'bcryptjs';
 import UserModel from '../models/User.model';
 import { IUserService } from '../Interfaces/users/IUserService';
 import { ServiceResponse } from '../Interfaces/ServiceResponse';
@@ -16,8 +17,11 @@ export default class UserService implements IUserService {
       return validation;
     }
 
-    const user = await this.teamModel.login(email, password);
-    if (!user) return { status: 'INVALID_DATA', data: { message: 'Invalid email or password' } };
+    const user = await this.teamModel.findByEmail(email);
+
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      return { status: 'INVALID_DATA', data: { message: 'Invalid email or password' } };
+    }
 
     const token = JWT.sign({ email, role: user.role, id: user.id });
 

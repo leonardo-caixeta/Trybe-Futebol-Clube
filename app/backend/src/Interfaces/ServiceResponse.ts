@@ -5,7 +5,8 @@ type ServiceResponseErrorType =
 | 'UNAUTHORIZED'
 | 'NOT_FOUND'
 | 'CONFLICT'
-| 'REQUIRED_DATA';
+| 'REQUIRED_DATA'
+| 'INVALID_TOKEN';
 
 export type ServiceResponseError = {
   status: ServiceResponseErrorType,
