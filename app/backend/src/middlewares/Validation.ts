@@ -4,7 +4,6 @@ import JWT from '../utils/JWT';
 export default class Validations {
   static validateToken(req: Request, res: Response, next: NextFunction) {
     const bearerToken = req.headers.authorization;
-
     if (!bearerToken) {
       return res.status(401).json({ message: 'Token not found' });
     }
@@ -12,11 +11,11 @@ export default class Validations {
     const token = bearerToken.split(' ')[1];
 
     const payload = JWT.verify(token);
+    console.log(payload);
 
     if (typeof payload === 'string') {
       return res.status(401).json({ message: payload });
     }
-    req.user = payload;
 
     next();
   }

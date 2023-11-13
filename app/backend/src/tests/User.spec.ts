@@ -1,17 +1,18 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-import { App } from '../../../../backend/src/app';
-import chaiHttp from 'chai-http';
+import { App } from '../app';
+//@ts-ignore
+import * as chaiHttp from 'chai-http';
 
-import JWT from '../../utils/JWT'
-import validations from '../../services/validations/User.validation'
+import JWT from '../utils/JWT'
+import validations from '../services/validations/User.validation'
 chai.use(chaiHttp);
 
 const { expect } = chai;
 
 const { app } = new App();
 
-import SequelizeUser from '../../database/models/SequelizeUser'
+import SequelizeUser from '../database/models/SequelizeUser'
 import {
   errorIncorrectMessageMock,
   errorInvalidMessageMock,
@@ -21,10 +22,11 @@ import {
   userMock,
   wrongPasswordMock,
   wrongUserMock
-} from '../mocks/User.mock';
+} from './mocks/User.mock';
 
 
 describe('Login test', function() {
+  beforeEach(function () { sinon.restore(); });
   describe('Login with username and password - /login', function() {
     it('should login', async function() {
       sinon.stub(SequelizeUser, 'findOne').resolves(userMock as any);
@@ -93,6 +95,7 @@ describe('Login test', function() {
     it('should return', async function () {
       const { status, body } = await chai.request(app).get('/login/role')
         .set('authorization', tokenMock);
+
       expect(status).to.be.equal(200);
       expect(body).to.be.deep.equal({ role: 'admin' });
     });

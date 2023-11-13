@@ -16,7 +16,9 @@ export default class UserController {
   }
 
   static async getRole(req: Request, res: Response) {
-    const { role } = req.user;
-    return res.status(200).json({ role });
+    const bearerToken = req.headers.authorization;
+
+    const { status, data } = UserService.getRoleByToken(bearerToken as string);
+    return res.status(mapStatusHTTP(status)).json(data);
   }
 }

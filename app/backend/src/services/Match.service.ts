@@ -4,6 +4,7 @@ import { ServiceMessage, ServiceResponse } from '../Interfaces/ServiceResponse';
 import { IMatches } from '../Interfaces/matches/IMatches';
 import { matchUpdateData } from '../Interfaces/CRUD/ICRUDModel';
 
+export type ServiceMessageRole = { role: string };
 export default class MatchService implements IMatchService {
   constructor(
     private matchModel: MatchModel = new MatchModel(),

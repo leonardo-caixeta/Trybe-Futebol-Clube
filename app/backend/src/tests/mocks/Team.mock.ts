@@ -1,12 +1,12 @@
-export const team = {
-  "id": 1,
-  "teamName": "Avaí/Kindermann"
+export const teamMock = {
+  id: 1,
+  teamName: "Avaí/Kindermann"
 }
 
-export const teams = [
-  team,
+export const teamsMock = [
+  teamMock,
   {
-    "id": 2,
-    "teamName": "Bahia"
+    id: 2,
+    teamName: "Bahia"
   }
 ]
