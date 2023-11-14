@@ -23,23 +23,26 @@ import {
   wrongPasswordMock,
   wrongUserMock
 } from './mocks/User.mock';
+import UserService from '../services/User.service';
+import UserModel from '../models/User.model';
 
 
 describe('Login test', function() {
   beforeEach(function () { sinon.restore(); });
   describe('Login with username and password - /login', function() {
     it('should login', async function() {
-      sinon.stub(SequelizeUser, 'findOne').resolves(userMock as any);
+      const { id, ...resto } = userMock;
+      const userModelMock = SequelizeUser.build({ ...resto, password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW' });
+      sinon.stub(SequelizeUser, 'findOne').resolves(userModelMock);
       sinon.stub(JWT, 'sign').returns(tokenMock);
-      sinon.stub(validations, 'validateLogin').returns(null);
 
-      const { password, email } = userMock;
+      const { email, password } = userMock;
 
       const { status, body } = await chai.request(app).post('/login')
-        .send({ password, email });
+        .send({ email, password: 'secret_admin' });
 
-      expect(status).to.be.equal(201);
-      expect(body).to.be.deep.equal(tokenMock);
+      expect(status).to.be.equal(200);
+      expect(body).to.be.contain.keys('token');
     });
 
     it('should not login - without password', async function() {
@@ -54,7 +57,7 @@ describe('Login test', function() {
       expect(body).to.be.deep.equal(errorIncorrectMessageMock);
     });
 
-    it('should not login - without username', async function() {
+    it('should not login - without email', async function() {
       sinon.stub(SequelizeUser, 'findOne').resolves(null);
 
       const { password } = userMock;
@@ -66,25 +69,26 @@ describe('Login test', function() {
       expect(body).to.be.deep.equal(errorIncorrectMessageMock);
     });
 
-    it('should not login - wrong username', async function() {
+    it('should not login - wrong email', async function() {
       sinon.stub(SequelizeUser, 'findOne').resolves(null);
 
-      const { username, password } = wrongUserMock;
+      const { email, password } = userMock;
 
       const { status, body } = await chai.request(app).post('/login')
-        .send({ username, password });
+        .send({ email, password });
 
       expect(status).to.be.equal(401);
       expect(body).to.be.deep.equal(errorInvalidMessageMock);
     });
 
     it('should not login - wrong password', async function() {
-      sinon.stub(SequelizeUser, 'findOne').resolves(null);
+      const userModelMock = SequelizeUser.build(userMock as any);
+      sinon.stub(SequelizeUser, 'findOne').resolves(userModelMock);
 
-      const { username, password } = wrongPasswordMock;
+      const { email, password } = userMock;
 
       const { status, body } = await chai.request(app).post('/login')
-        .send({ username, password });
+        .send({ email, password });
 
       expect(status).to.be.equal(401);
       expect(body).to.be.deep.equal(errorInvalidMessageMock);
@@ -93,6 +97,7 @@ describe('Login test', function() {
 
   describe('should return the role - /login/role', function() {
     it('should return', async function () {
+
       const { status, body } = await chai.request(app).get('/login/role')
         .set('authorization', tokenMock);
 

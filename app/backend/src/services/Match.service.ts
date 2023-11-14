@@ -17,8 +17,7 @@ export default class MatchService implements IMatchService {
   }
 
   async findByQuery(query: string): Promise<ServiceResponse<IMatches[]>> {
-    const matches = await this.matchModel.findByQuery(query);
-
+    const matches = await this.matchModel.findByQuery(query === 'true');
     return { status: 'SUCCESSFUL', data: matches };
   }
 
@@ -31,6 +30,6 @@ export default class MatchService implements IMatchService {
   async matchesUpdate(id: number, data: matchUpdateData): Promise<ServiceResponse<ServiceMessage>> {
     await this.matchModel.matchesUpdate(id, data);
 
-    return { status: 'SUCCESSFUL', data: { message: 'Match finished' } };
+    return { status: 'SUCCESSFUL', data: { message: 'Match goals updated' } };
   }
 }

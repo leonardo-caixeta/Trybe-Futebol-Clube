@@ -2,19 +2,40 @@ import { IMatches } from '../Interfaces/matches/IMatches';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 import { matchUpdateData } from '../Interfaces/CRUD/ICRUDModel';
+import SequelizeTeam from '../database/models/SequelizeTeam';
 
 export default class MatchModel implements IMatchModel {
   private model = SequelizeMatch;
 
   async findAll(): Promise<IMatches[]> {
-    const dbData = await this.model.findAll();
+    const dbData = await this.model.findAll({
+      include: [{
+        model: SequelizeTeam,
+        as: 'homeTeam',
+        attributes: { exclude: ['id'] },
+      }, {
+        model: SequelizeTeam,
+        as: 'awayTeam',
+        attributes: { exclude: ['id'] },
+      }],
+    });
 
     return dbData;
   }
 
-  async findByQuery(query: string): Promise<IMatches[]> {
-    const dbData = await this.model.findAll({ where: { inProgress: query } });
-
+  async findByQuery(query: boolean): Promise<IMatches[]> {
+    const dbData = await this.model.findAll({
+      include: [{
+        model: SequelizeTeam,
+        as: 'homeTeam',
+        attributes: { exclude: ['id'] },
+      }, {
+        model: SequelizeTeam,
+        as: 'awayTeam',
+        attributes: { exclude: ['id'] },
+      }],
+      where: { inProgress: query },
+    });
     return dbData;
   }
 

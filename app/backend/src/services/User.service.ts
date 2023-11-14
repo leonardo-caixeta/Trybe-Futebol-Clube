@@ -7,7 +7,7 @@ import JWT, { UserPayload } from '../utils/JWT';
 
 export default class UserService implements IUserService {
   constructor(
-    private teamModel: UserModel = new UserModel(),
+    private userModel: UserModel = new UserModel(),
   ) { }
 
   async login(email: string, password: string):
@@ -17,7 +17,7 @@ export default class UserService implements IUserService {
       return validation;
     }
 
-    const user = await this.teamModel.findByEmail(email);
+    const user = await this.userModel.findByEmail(email);
 
     if (!user || !bcrypt.compareSync(password, user.password)) {
       return { status: 'INVALID_DATA', data: { message: 'Invalid email or password' } };

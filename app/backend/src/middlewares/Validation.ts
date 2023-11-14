@@ -11,7 +11,6 @@ export default class Validations {
     const token = bearerToken.split(' ')[1];
 
     const payload = JWT.verify(token);
-    console.log(payload);
 
     if (typeof payload === 'string') {
       return res.status(401).json({ message: payload });

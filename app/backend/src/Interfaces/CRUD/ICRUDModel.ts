@@ -24,7 +24,7 @@ export interface ICRUDModelUpdater {
 // }
 
 export interface ICRUDModelFindByParam<I> {
-  findByQuery(query: string): Promise<I[]>
+  findByQuery(query: boolean): Promise<I[]>
 }
 
 export interface ICRUDModelLogin<I> {

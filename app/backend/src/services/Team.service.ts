@@ -17,7 +17,7 @@ export default class TeamService implements ITeamService {
   async findById(id: number): Promise<ServiceResponse<ITeams | ServiceMessage>> {
     const oneTeam = await this.teamModel.findById(id);
     if (!oneTeam) {
-      return { status: 'NOT_FOUND', data: { message: `Wrong or inexistent id: ${id} ` } };
+      return { status: 'NOT_FOUND', data: { message: `Wrong or inexistent id: ${id}` } };
     }
 
     return { status: 'SUCCESSFUL', data: oneTeam };

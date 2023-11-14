@@ -9,10 +9,11 @@ export default class MatchController {
 
   async findAll(req: Request, res: Response) {
     const { inProgress } = req.query;
-    if (inProgress) {
-      const { status, data } = await this.matchService.findByQuery(inProgress as string);
+    if (typeof inProgress === 'string') {
+      const { status, data } = await this.matchService.findByQuery(inProgress);
       return res.status(mapStatusHTTP(status)).json(data);
     }
+
     const { status, data } = await this.matchService.findAll();
 
     return res.status(mapStatusHTTP(status)).json(data);
