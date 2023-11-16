@@ -13,9 +13,14 @@ export interface IMatchServiceGetByParam {
 
 export interface IMatchServiceUpdate {
   finishUpdate(id: number): Promise<ServiceResponse<ServiceMessage>>;
-  matchesUpdate(id: number, data: matchUpdateData): Promise<ServiceResponse<ServiceMessage>>;
+  matchesGoalUpdate(id: number, data: matchUpdateData): Promise<ServiceResponse<ServiceMessage>>;
+}
+
+export interface IMatchServiceCreate {
+  create(data: Partial<IMatches>): Promise<ServiceResponse<IMatches>>
 }
 
 export interface IMatchService extends IMatchServiceReader,
   IMatchServiceGetByParam,
+  IMatchServiceCreate,
   IMatchServiceUpdate { }

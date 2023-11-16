@@ -45,7 +45,7 @@ export default class MatchModel implements IMatchModel {
     return dbData;
   }
 
-  async matchesUpdate(id: number, data: matchUpdateData): Promise<number> {
+  async matchesGoalUpdate(id: number, data: matchUpdateData): Promise<number> {
     const { homeTeamGoals, awayTeamGoals } = data;
     const [dbData] = await this.model.update(
       { homeTeamGoals,
@@ -55,6 +55,24 @@ export default class MatchModel implements IMatchModel {
         where: { id },
       },
     );
+
+    return dbData;
+  }
+
+  async create(data: Partial<IMatches>): Promise<IMatches> {
+    const {
+      awayTeamGoals,
+      homeTeamGoals,
+      awayTeamId,
+      homeTeamId,
+    } = data;
+    const dbData = await this.model.create({
+      awayTeamGoals: awayTeamGoals as number,
+      homeTeamGoals: homeTeamGoals as number,
+      awayTeamId: awayTeamId as number,
+      homeTeamId: homeTeamId as number,
+      inProgress: true,
+    });
 
     return dbData;
   }

@@ -5,9 +5,9 @@ export type matchUpdateData = {
   awayTeamGoals: number;
 };
 
-// export interface ICRUDModelCreator<T> {
-//   create(data: Partial<T>): Promise<T>,
-// }
+export interface ICRUDModelCreator<T> {
+  create(data: Partial<T>): Promise<T>,
+}
 
 export interface ICRUDModelReader<T> {
   findAll(): Promise<T[]>,
@@ -16,7 +16,7 @@ export interface ICRUDModelReader<T> {
 
 export interface ICRUDModelUpdater {
   finishUpdate(id: ID): Promise<number>,
-  matchesUpdate(id: ID, data: matchUpdateData): Promise<number>
+  matchesGoalUpdate(id: ID, data: matchUpdateData): Promise<number>,
 }
 
 // export interface ICRUDModelDeleter {

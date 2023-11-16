@@ -27,10 +27,16 @@ export default class MatchController {
     return res.status(mapStatusHTTP(status)).json(data);
   }
 
-  async matchFinish(req: Request, res: Response) {
+  async matchGoalUpdate(req: Request, res: Response) {
     const { id } = req.params;
 
-    const { status, data } = await this.matchService.matchesUpdate(+id, req.body);
+    const { status, data } = await this.matchService.matchesGoalUpdate(+id, req.body);
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
+
+  async matchCreate(req: Request, res: Response) {
+    const { status, data } = await this.matchService.create(req.body);
 
     return res.status(mapStatusHTTP(status)).json(data);
   }

@@ -1,8 +1,9 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 import { App } from '../app';
+
 //@ts-ignore
-import * as chaiHttp from 'chai-http';
+import chaiHttp = require('chai-http');
 
 import JWT from '../utils/JWT'
 import validations from '../services/validations/User.validation'
@@ -20,12 +21,7 @@ import {
   errorNoTokenMock,
   tokenMock,
   userMock,
-  wrongPasswordMock,
-  wrongUserMock
 } from './mocks/User.mock';
-import UserService from '../services/User.service';
-import UserModel from '../models/User.model';
-
 
 describe('Login test', function() {
   beforeEach(function () { sinon.restore(); });
