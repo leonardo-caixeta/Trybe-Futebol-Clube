@@ -4,6 +4,9 @@ import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 import { matchUpdateData } from '../Interfaces/CRUD/ICRUDModel';
 import SequelizeTeam from '../database/models/SequelizeTeam';
 
+type HomeTeamIncluded = { homeTeam: { teamName: string } };
+type IMatchHomeTeam = IMatches & HomeTeamIncluded;
+
 export default class MatchModel implements IMatchModel {
   private model = SequelizeMatch;
 
@@ -37,6 +40,19 @@ export default class MatchModel implements IMatchModel {
       where: { inProgress: query },
     });
     return dbData;
+  }
+
+  async listHomeTeamSummarize(): Promise<IMatchHomeTeam[]> {
+    const dbData = (await this.model.findAll({
+      include: {
+        model: SequelizeTeam,
+        as: 'homeTeam',
+        attributes: { exclude: ['id'] },
+      },
+      where: { inProgress: false },
+    })) as (SequelizeMatch & HomeTeamIncluded)[];
+
+    return dbData as IMatchHomeTeam[];
   }
 
   async finishUpdate(id: number): Promise<number> {

@@ -15,7 +15,6 @@ ServiceResponse<IMatches> | null => {
   const mapedTeams = dataToCheck.map(({ id }) => id);
   const existHomeTeam = mapedTeams.some((teamId) => homeTeamId === teamId);
   const existAwayTeam = mapedTeams.some((teamId) => awayTeamId === teamId);
-
   if (!existAwayTeam || !existHomeTeam) {
     return { status: 'NOT_FOUND', data: { message: 'There is no team with such id!' } };
   }
@@ -23,4 +22,4 @@ ServiceResponse<IMatches> | null => {
   return null;
 };
 
-export default validateMatch;
+export default { validateMatch };
