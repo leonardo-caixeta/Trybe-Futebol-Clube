@@ -1,9 +1,9 @@
-import { ServiceResponse } from '../../Interfaces/ServiceResponse';
-import { IMatches } from '../../Interfaces/matches/IMatches';
-import { ITeams } from '../../Interfaces/teams/ITeams';
+import { ServiceResponse } from '../../Types/ServiceResponse.type';
+import { IMatch } from '../../Interfaces/matches/IMatch';
+import { ITeam } from '../../Interfaces/teams/ITeam';
 
-const validateMatch = (data: Partial<IMatches>, dataToCheck: ITeams[]):
-ServiceResponse<IMatches> | null => {
+const validateMatch = (data: Partial<IMatch>, dataToCheck: ITeam[]):
+ServiceResponse<IMatch> | null => {
   const { homeTeamId, awayTeamId } = data;
   if (homeTeamId === awayTeamId) {
     return {

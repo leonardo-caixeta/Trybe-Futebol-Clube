@@ -1,4 +1,6 @@
-import { ICRUDTeamModel } from '../CRUD/ICRUDTeamModel';
-import { ITeams } from './ITeams';
+import { ITeam } from './ITeam';
 
-export type ITeamModel = ICRUDTeamModel<ITeams>;
+export interface ITeamModel {
+  findAll(): Promise<ITeam[]>;
+  findById(ID: number): Promise<ITeam | null>
+}

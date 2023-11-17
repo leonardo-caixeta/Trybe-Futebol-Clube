@@ -1,16 +1,13 @@
-import { IMatches } from '../Interfaces/matches/IMatches';
+import { IMatch } from '../Interfaces/matches/IMatch';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
-import { matchUpdateData } from '../Interfaces/CRUD/ICRUDModel';
 import SequelizeTeam from '../database/models/SequelizeTeam';
-
-type HomeTeamIncluded = { homeTeam: { teamName: string } };
-type IMatchHomeTeam = IMatches & HomeTeamIncluded;
+import { HomeTeamIncluded, IMatchHomeTeam, matchUpdateData } from '../Types/Matches.type';
 
 export default class MatchModel implements IMatchModel {
   private model = SequelizeMatch;
 
-  async findAll(): Promise<IMatches[]> {
+  async findAll(): Promise<IMatch[]> {
     const dbData = await this.model.findAll({
       include: [{
         model: SequelizeTeam,
@@ -26,7 +23,7 @@ export default class MatchModel implements IMatchModel {
     return dbData;
   }
 
-  async findByQuery(query: boolean): Promise<IMatches[]> {
+  async findByQuery(query: boolean): Promise<IMatch[]> {
     const dbData = await this.model.findAll({
       include: [{
         model: SequelizeTeam,
@@ -75,7 +72,7 @@ export default class MatchModel implements IMatchModel {
     return dbData;
   }
 
-  async create(data: Partial<IMatches>): Promise<IMatches> {
+  async create(data: Partial<IMatch>): Promise<IMatch> {
     const {
       awayTeamGoals,
       homeTeamGoals,

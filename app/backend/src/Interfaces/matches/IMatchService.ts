@@ -1,14 +1,14 @@
-import { matchUpdateData } from '../CRUD/ICRUDModel';
-import { ServiceMessage, ServiceResponse } from '../ServiceResponse';
-import { IMatches } from './IMatches';
+import { matchUpdateData } from '../../Types/Matches.type';
+import { ServiceMessage, ServiceResponse } from '../../Types/ServiceResponse.type';
+import { IMatch } from './IMatch';
 
 export interface IMatchServiceReader {
-  findAll(): Promise<ServiceResponse<IMatches[]>>
-  findById?(id: number): Promise<ServiceResponse<IMatches | ServiceMessage>>
+  findAll(): Promise<ServiceResponse<IMatch[]>>
+  findById?(id: number): Promise<ServiceResponse<IMatch | ServiceMessage>>
 }
 
 export interface IMatchServiceGetByParam {
-  findByQuery(query: string): Promise<ServiceResponse<IMatches[]>>
+  findByQuery(query: string): Promise<ServiceResponse<IMatch[]>>
 }
 
 export interface IMatchServiceUpdate {
@@ -17,7 +17,7 @@ export interface IMatchServiceUpdate {
 }
 
 export interface IMatchServiceCreate {
-  create(data: Partial<IMatches>): Promise<ServiceResponse<IMatches>>
+  create(data: Partial<IMatch>): Promise<ServiceResponse<IMatch>>
 }
 
 export interface IMatchService extends IMatchServiceReader,

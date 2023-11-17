@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcryptjs';
 import UserModel from '../models/User.model';
 import { IUserService, ServiceReturnRole } from '../Interfaces/users/IUserService';
-import { ServiceResponse } from '../Interfaces/ServiceResponse';
+import { ServiceResponse } from '../Types/ServiceResponse.type';
 import UserValidation from './validations/User.validation';
 import JWT, { UserPayload } from '../utils/JWT';
 

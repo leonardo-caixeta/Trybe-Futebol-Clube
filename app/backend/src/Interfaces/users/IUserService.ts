@@ -1,4 +1,4 @@
-import { ServiceResponse } from '../ServiceResponse';
+import { ServiceResponse } from '../../Types/ServiceResponse.type';
 
 export type ServiceReturnRole = { role: string };
 export interface IUserServiceLogin {

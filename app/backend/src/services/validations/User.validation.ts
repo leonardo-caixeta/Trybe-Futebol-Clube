@@ -1,4 +1,4 @@
-import { ServiceResponse } from '../../Interfaces/ServiceResponse';
+import { ServiceResponse } from '../../Types/ServiceResponse.type';
 import schemas from '../schemas/schemas';
 
 export type loginData = {
