@@ -12,4 +12,10 @@ export default class LeaderboardController {
 
     return res.status(mapStatusHTTP(status)).json(data);
   }
+
+  async listAwayTeamSummary(req: Request, res: Response) {
+    const { status, data } = await this.matchService.listAwayTeamSummary();
+
+    return res.status(mapStatusHTTP(status)).json(data);
+  }
 }

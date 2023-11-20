@@ -49,6 +49,29 @@ export default class MatchService implements IMatchService {
     return { status: 'SUCCESSFUL', data: Leaderboards.sortLeaderboard(data) };
   }
 
+  async listAwayTeamSummary(): Promise<ServiceResponse<ILeaderBoard[]>> {
+    const matches = await this.matchModel.listAwayTeamSummarize();
+    const data = Object.values(matches.reduce<Record<string, ILeaderBoard>>((acc, match) => {
+      const matchPoints = Leaderboards.getMatchPoints(match.awayTeamGoals, match.homeTeamGoals);
+      acc[`${match.awayTeamId}`] = Leaderboards.upsertLeaderboard({
+        name: match.awayTeam.teamName,
+        totalPoints: matchPoints,
+        totalGames: 1,
+        totalVictories: matchPoints === 3 ? 1 : 0,
+        totalDraws: matchPoints === 1 ? 1 : 0,
+        totalLosses: matchPoints === 0 ? 1 : 0,
+        goalsFavor: match.awayTeamGoals,
+        goalsOwn: match.homeTeamGoals,
+        goalsBalance: Leaderboards.goalsBalance(match.awayTeamGoals, match.homeTeamGoals),
+        efficiency: Leaderboards.getEfficiency(matchPoints, 1),
+      }, acc[`${match.awayTeamId}`]);
+
+      return acc;
+    }, {}));
+
+    return { status: 'SUCCESSFUL', data: Leaderboards.sortLeaderboard(data) };
+  }
+
   async finishUpdate(id: number): Promise<ServiceResponse<ServiceMessage>> {
     await this.matchModel.finishUpdate(id);
 

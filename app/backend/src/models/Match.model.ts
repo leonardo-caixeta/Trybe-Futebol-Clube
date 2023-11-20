@@ -2,7 +2,12 @@ import { IMatch } from '../Interfaces/matches/IMatch';
 import SequelizeMatch from '../database/models/SequelizeMatch';
 import { IMatchModel } from '../Interfaces/matches/IMatchModel';
 import SequelizeTeam from '../database/models/SequelizeTeam';
-import { HomeTeamIncluded, IMatchHomeTeam, matchUpdateData } from '../Types/Matches.type';
+import {
+  AwayTeamIncluded,
+  HomeTeamIncluded,
+  IMatchAwayTeam,
+  IMatchHomeTeam,
+  matchUpdateData } from '../Types/Matches.type';
 
 export default class MatchModel implements IMatchModel {
   private model = SequelizeMatch;
@@ -50,6 +55,19 @@ export default class MatchModel implements IMatchModel {
     })) as (SequelizeMatch & HomeTeamIncluded)[];
 
     return dbData as IMatchHomeTeam[];
+  }
+
+  async listAwayTeamSummarize(): Promise<IMatchAwayTeam[]> {
+    const dbData = (await this.model.findAll({
+      include: {
+        model: SequelizeTeam,
+        as: 'awayTeam',
+        attributes: { exclude: ['id'] },
+      },
+      where: { inProgress: false },
+    })) as (SequelizeMatch & AwayTeamIncluded)[];
+
+    return dbData as IMatchAwayTeam[];
   }
 
   async finishUpdate(id: number): Promise<number> {
