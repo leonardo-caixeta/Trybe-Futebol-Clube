@@ -1,6 +1,6 @@
 # Trybe Futebol Clube 🚀
 
-Bem-vindo à versão aprimorada do projeto Trybe Futebol Clube! Este projeto envolve o desenvolvimento de um back-end dockerizado, utilizando modelagem de dados através do Sequelize. O projeto base foi desenvolvido pela Trybe (Escola de Desenvolvimento Web), e este README destaca os aprimoramentos feitos por mim.
+Bem-vindo à versão aprimorada do projeto Trybe Futebol Clube, uma aplicação de gerenciamento de gols e times de futebol! Este projeto envolve o desenvolvimento de um back-end dockerizado, utilizando modelagem de dados através do Sequelize. O projeto base foi desenvolvido pela Trybe (Escola de Desenvolvimento Web), e este README destaca os aprimoramentos feitos por mim.
 
 ## 🛠 Modificações
 
